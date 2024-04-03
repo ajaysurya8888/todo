@@ -165,7 +165,7 @@
     document.getElementById('fromDateTime').addEventListener('change', function() {
         var fromDateTime = new Date(this.value);
         var toDateTime = new Date(fromDateTime);
-        toDateTime.setHours(fromDateTime.getHours() + 1); // Adjust this as per your requirement
+        toDateTime.setHours(11); // Adjust this as per your requirement
         document.getElementById('toDateTime').value = toDateTime.toISOString().slice(0, 16);
     });
 </script>
