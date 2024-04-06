@@ -97,7 +97,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Active Todo List</h1>
+    <h1>Things to complete</h1>
     <table>
         <thead>
         <tr>
@@ -126,7 +126,7 @@
         </tbody>
     </table>
 
-    <h1>Completed Todo List</h1>
+    <h1>Completed Tasks</h1>
     <table>
         <thead>
         <tr>
@@ -165,7 +165,12 @@
     document.getElementById('fromDateTime').addEventListener('change', function() {
         var fromDateTime = new Date(this.value);
         var toDateTime = new Date(fromDateTime);
-        toDateTime.setHours(fromDateTime.getHours() + 1); // Adjust this as per your requirement
+        toDateTime.setHours(23);
+        toDateTime.setMinutes(0);
+        var timezoneOffset = toDateTime.getTimezoneOffset() * 60000; // Convert minutes to milliseconds
+
+// Adjust toDateTime to local time
+        toDateTime.setTime(toDateTime.getTime() - timezoneOffset);// Adjust this as per your requirement
         document.getElementById('toDateTime').value = toDateTime.toISOString().slice(0, 16);
     });
 </script>

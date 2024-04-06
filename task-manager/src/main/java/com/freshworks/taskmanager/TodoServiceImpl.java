@@ -3,15 +3,21 @@ package com.freshworks.taskmanager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class TodoServiceImpl implements TodoService {
 
     @Value("${csv.file.path}")
     private String csvFilePath;
+    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
+    SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy hh:mm a");
 
 
 
@@ -38,12 +44,16 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public void addTodoItem(TodoItem todoItem) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilePath, true))) {
-            writer.write(todoItem.getFromDateTime() + "," +
-                    todoItem.getToDateTime() + "," +
+            Date toDateParse = inputFormat.parse(todoItem.getToDateTime());
+            Date fromDateParse = inputFormat.parse(todoItem.getFromDateTime());
+            writer.write(outputFormat.format(fromDateParse) + "," +
+                    outputFormat.format(toDateParse) + "," +
                     todoItem.getDescription() + "," +
                     todoItem.isCompleted() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
     }
 
